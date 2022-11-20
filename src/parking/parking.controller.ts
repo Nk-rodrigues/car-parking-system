@@ -6,13 +6,16 @@ import {ParkingService} from './parking.service'
 export class ParkingController {
     constructor(private parkingService: ParkingService){}
 
+    //Post request to initilize parking lot space
     @Post()
-    createParking(@Body() complete_body: {no_of_slot: number}) : any {
-        return this.parkingService.setParking(complete_body.no_of_slot)
+    createParking(@Body() req: {no_of_slot: number}) : {} {
+        return this.parkingService.setParking(req.no_of_slot)
     }
+
+    //Patch request to increase parking lot space
     @Patch()
-    addParking(@Body() complete_body: {increment_slot: number}) : any {
-        return this.parkingService.extendParking(complete_body.increment_slot)
+    addParking(@Body() req: {increment_slot: number}) : {} {
+        return this.parkingService.extendParking(req.increment_slot)
     }
 }
     
