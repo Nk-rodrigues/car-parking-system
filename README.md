@@ -1,73 +1,137 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Parking System REST API application
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a documentation of Parking lot API built using NestJS
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Install
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+    npm install
 
-## Installation
+## Run the app
 
-```bash
-$ npm install
-```
+    npm run start:dev
 
-## Running the app
+# API
 
-```bash
-# development
-$ npm run start
+The API to the Parking System app is described below.
 
-# watch mode
-$ npm run start:dev
+## Get list of all the cars in parking lot
 
-# production mode
-$ npm run start:prod
-```
+### Request
 
-## Test
+`GET /status`
 
-```bash
-# unit tests
-$ npm run test
+    http://localhost:3000/status
 
-# e2e tests
-$ npm run test:e2e
+### Response example
 
-# test coverage
-$ npm run test:cov
-```
+    [ {"slot_no":1,"registration_no":"KA-01-HH-1234","color":"red"},
+      {"slot_no":2,"registration_no":"KA-01-HH-1235","color":"blue"},
+      {"slot_no":4,"registration_no":"KA-01-HH-1236","color":"black"}
+    ]
 
-## Support
+## Allocate total parking space
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Request
 
-## Stay in touch
+`POST /parking_lot`
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    http://localhost:3000/parking_lot
 
-## License
+### Request Body
 
-Nest is [MIT licensed](LICENSE).
+    {"no_of_slot":9}
+
+### Response example
+
+    {"total_slot": 9}
+
+
+## Increment parking lot space
+
+### Request
+
+`PATCH /parking_lot`
+
+    http://localhost:3000/parking_lot
+
+### Request Body
+
+    {"increment_slot":3}
+
+### Response example
+
+    {"total_slot":9}
+
+
+## Allocate a slot to vehicle
+
+### Request
+
+`POST /park`
+
+    http://localhost:3000/park
+
+### Request Body
+
+    {
+      "car_reg_no":"KA-01-AB-2211",
+      "car_color":"white"
+    }
+
+### Response example
+
+    {"allocated_slot_number":1}
+
+
+## Fetch all the cars with a particular color.
+
+### Request
+
+`GET /registration_numbers/:color`
+
+    http://localhost:3000/registration_numbers/white
+
+### Response example
+
+    [
+      "KA-01-HH-1234",
+      "KA-02-AB-9999",
+      "KA-03-PK-2211"
+    ]
+
+
+## Fetch all the parking slots where a car of particular color is parked.
+
+### Request
+
+`GET /slot_numbers/:color`
+
+    http://localhost:3000/slot_numbers/white
+
+### Response example
+
+    [
+      "2",
+      "7",
+      "9"
+    ]
+
+
+## Allocate a slot to vehicle
+
+### Request
+
+`DELETE /clear`
+
+    http://localhost:3000/clear
+
+### Request Body
+
+    {"slot_number":"1"}
+or
+    {"car_registration_no":"KA-01-AB-2211"}
+
+### Response example
+
+    {"freed_slot_number":1}
