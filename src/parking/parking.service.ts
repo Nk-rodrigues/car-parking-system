@@ -34,4 +34,12 @@ export class ParkingService {
         return -1
     }
 
+    slotIdStatus(slotId: number): boolean {
+        if(slotId < total_slot-1) {
+            if(available_slot[slotId-1] === 0) {
+                return true
+            }
+        }
+        return false
+    }
 }

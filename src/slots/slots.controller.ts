@@ -1,4 +1,5 @@
-import { Controller, Post, Get, Header, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Get, Header, Body, Patch, Param, Delete, UsePipes } from '@nestjs/common';
+import { CustomValidation } from './slots.pipes';
 import { SlotService } from './slots.service';
 
 @Controller('park')
@@ -24,6 +25,10 @@ export class SlotController {
         return this.slotService.sameColorId(color)
     }
 
+    @Delete('/clear')
+    freeParkingSpace(@Body(new CustomValidation()) req: any){
+        return this.slotService.freeSpace(req)
+    }
 }
     
 

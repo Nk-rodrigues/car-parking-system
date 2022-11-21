@@ -22,6 +22,7 @@ export class SlotService {
         if(slot != -1){
             req.slotID = slot+1
             this.slots.push(req)
+            used_slots++
             vehicle.add(req.car_reg_no)
             colorMapReg.put(req.car_color, req.car_reg_no) //map all the cars with a particular color
             colorMapId.put(req.car_color, req.slotID.toString())
@@ -32,11 +33,45 @@ export class SlotService {
         }
     }
 
-    sameColorReg(color: string){
+    sameColorReg(color: string) {
         return colorMapReg.get(color)
     }
 
-    sameColorId(color: string){
+    sameColorId(color: string) {
         return colorMapId.get(color)
+    }
+
+    freeSpace(req: any) {
+        if (req.slot_number) {
+                if (this.parkingService.slotIdStatus) {
+                    for(let i=0; i<this.slots.length; i++) {
+                        if (req.slot_number-1 === this.slots[i].slotID) {
+                            let freeSlot = i+1
+                            vehicle.delete(req.req.car_registration_no)
+                            this.slots.splice(i,1)
+                            return {"freed_slot_number": freeSlot}
+                        }
+                    }
+                }
+                else {
+                    throw new HttpException("Slot is already free or out of range" , 400)
+                }
+        }
+        else {
+            if (vehicle.has(req.car_registration_no)) {
+                vehicle.delete(req.car_registration_no)
+                for(let i=0; i<this.slots.length; i++) {
+                    if (req.car_registration_no === this.slots[i].car_reg_no) {
+                        let freeSlot = i+1
+                        this.slots.splice(i,1)
+                        return {"freed_slot_number": freeSlot}
+                    }
+                }
+            }
+            else {
+                throw new HttpException("vehicle Registration number does not exists" , 400)
+            }
+        }
+        
     }
 }
