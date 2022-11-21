@@ -2,11 +2,11 @@ import { Controller, Post, Get, Header, Body, Patch, Param, Delete, UsePipes } f
 import { CustomValidation } from './slots.pipes';
 import { SlotService } from './slots.service';
 
-@Controller('park')
+@Controller()
 export class SlotController {
     constructor(private slotService: SlotService){}
 
-    @Post()
+    @Post('park')
     createParking(@Body() req: {
         car_reg_no: string,
         car_color: string,
@@ -27,6 +27,7 @@ export class SlotController {
 
     @Delete('/clear')
     freeParkingSpace(@Body(new CustomValidation()) req: any){
+        console.log('inside del', req);
         return this.slotService.freeSpace(req)
     }
 }

@@ -42,12 +42,17 @@ export class SlotService {
     }
 
     freeSpace(req: any) {
+        console.log('inside free',req);
         if (req.slot_number) {
+            console.log('inside free1',req);
                 if (this.parkingService.slotIdStatus) {
+                    console.log('inside free2',req);
                     for(let i=0; i<this.slots.length; i++) {
-                        if (req.slot_number-1 === this.slots[i].slotID) {
+                        console.log('inside for',req);
+                        if (req.slot_number === this.slots[i].slotID) {
+                            console.log('inside for if',req);
                             let freeSlot = i+1
-                            vehicle.delete(req.req.car_registration_no)
+                            vehicle.delete(this.slots[i].car_reg_no)
                             this.slots.splice(i,1)
                             return {"freed_slot_number": freeSlot}
                         }
@@ -72,6 +77,5 @@ export class SlotService {
                 throw new HttpException("vehicle Registration number does not exists" , 400)
             }
         }
-        
     }
 }
