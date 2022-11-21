@@ -13,7 +13,7 @@ This is a documentation of Parking lot API built using NestJS
 
 # API
 
-The API to the Parking System app is described below.
+The API calls to the Parking System app is described below.
 
 ## Get list of all the cars in parking lot
 
@@ -25,7 +25,8 @@ The API to the Parking System app is described below.
 
 ### Response example
 
-    [ {"slot_no":1,"registration_no":"KA-01-HH-1234","color":"red"},
+    [ 
+      {"slot_no":1,"registration_no":"KA-01-HH-1234","color":"red"},
       {"slot_no":2,"registration_no":"KA-01-HH-1235","color":"blue"},
       {"slot_no":4,"registration_no":"KA-01-HH-1236","color":"black"}
     ]
@@ -129,7 +130,7 @@ The API to the Parking System app is described below.
 ### Request Body
 
     {"slot_number":"1"}
-or
+# or
     {"car_registration_no":"KA-01-AB-2211"}
 
 ### Response example
