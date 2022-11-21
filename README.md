@@ -130,7 +130,7 @@ The API calls to the Parking System app is described below.
 ### Request Body
 
     {"slot_number":"1"}
-# or
+#### or
     {"car_registration_no":"KA-01-AB-2211"}
 
 ### Response example
