@@ -3,7 +3,6 @@ import { Slot } from './slots.model';
 import { ParkingService } from 'src/parking/parking.service';
 
 let vehicle = new Set<string>()
-let used_slots = 0
 // let colorMapReg = new ArrayMultimap<string, string>
 // let colorMapId = new ArrayMultimap<string, string>
 let colorMapReg = new Map<string, string>
@@ -21,11 +20,10 @@ export class SlotService {
             throw new HttpException("Vehicle already exists" , 400)
         }
 
-        let slot = this.parkingService.isSlotAvailable(used_slots)
+        let slot = this.parkingService.isSlotAvailable()
         if(slot != -1){
             req.slotID = slot+1
             this.slots.push(req)
-            used_slots++
             vehicle.add(req.car_reg_no)
             colorMapReg[req.car_color] = colorMapReg[req.car_color] ? colorMapReg[req.car_color]+req.car_reg_no+',' : req.car_reg_no+','
             colorMapId[req.car_color] = colorMapId[req.car_color] ? colorMapId[req.car_color]+req.slotID+',' : req.slotID+','
@@ -59,10 +57,11 @@ export class SlotService {
         if (req.slot_number) {
                 if (this.parkingService.slotIdStatus) {
                     for(let i=0; i<this.slots.length; i++) {
-                        if (req.slot_number === this.slots[i].slotID) {
+                        if (req.slot_number == this.slots[i].slotID) {
                             colorMapReg[this.slots[i].car_color] = colorMapReg[this.slots[i].car_color].replace(this.slots[i].car_reg_no,'')
                             colorMapId[this.slots[i].car_color] = colorMapId[this.slots[i].car_color].replace(this.slots[i].slotID,'')
                             let freeSlot = this.slots[i].slotID
+                            this.parkingService.freeSlot(freeSlot)
                             vehicle.delete(this.slots[i].car_reg_no)
                             this.slots.splice(i,1)
                             return {"freed_slot_number": freeSlot}
@@ -81,6 +80,7 @@ export class SlotService {
                         colorMapReg[this.slots[i].car_color].replace(this.slots[i].car_reg_no,'')
                         colorMapId[this.slots[i].car_color].replace(this.slots[i].slotID,'')
                         let freeSlot = i+1
+                        this.parkingService.freeSlot(freeSlot)
                         this.slots.splice(i,1)
                         return {"freed_slot_number": freeSlot}
                     }
