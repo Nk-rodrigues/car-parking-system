@@ -32,7 +32,6 @@ export class SlotController {
 
     @Delete('/clear')
     freeParkingSpace(@Body(new CustomValidation()) req: any){
-        console.log('inside del', req);
         return this.slotService.freeSpace(req)
     }
 }
