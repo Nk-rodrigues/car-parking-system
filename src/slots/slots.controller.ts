@@ -25,6 +25,11 @@ export class SlotController {
         return this.slotService.sameColorId(color)
     }
 
+    @Get('status')
+    getAllVehicle(){
+        return this.slotService.getAllSlots()
+    }
+
     @Delete('/clear')
     freeParkingSpace(@Body(new CustomValidation()) req: any){
         console.log('inside del', req);

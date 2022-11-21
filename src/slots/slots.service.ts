@@ -41,6 +41,10 @@ export class SlotService {
         return colorMapId.get(color)
     }
 
+    getAllSlots(){
+        return this.slots
+    }
+
     freeSpace(req: any) {
         console.log('inside free',req);
         if (req.slot_number) {
