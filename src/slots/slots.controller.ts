@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Header, Body, Patch, Param, Delete, UsePipes } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Delete } from '@nestjs/common';
 import { CustomValidation } from './slots.pipes';
 import { SlotService } from './slots.service';
 

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { BinaryHeap } from 'src/priority_queue/priority_queue';
 
 let total_slot;
-let available_slot = [] //Array to identify which slot is available
-var nearestSlot = new BinaryHeap<number>( (x: number) => x)
+let available_slot = [] //This Array is used to flag if a slot is empty or not
+let nearestSlot = new BinaryHeap<number>( (x: number) => x) //This Binary Heap is used to get closest parking slot
 
 @Injectable()
 export class ParkingService {
@@ -35,17 +35,18 @@ export class ParkingService {
             available_slot[id] = 0
             return id
         }
-        // if(used_slots<total_slot) {
-        //     for (let i=0; i<available_slot.length; i++) {
-        //         if(available_slot[i]==1) {
-        //             available_slot[i] = 0
-        //             return i;
-        //         }
-        //     } 
-        // }
+        /*if(used_slots<total_slot) {
+            for (let i=0; i<available_slot.length; i++) {
+                if(available_slot[i]==1) {
+                    available_slot[i] = 0
+                    return i;
+                }
+            } 
+        }*/
         return -1
     }
 
+    //This function will check if a slot is empty
     slotIdStatus(slotId: number): boolean {
         if(slotId < total_slot) {
             if(available_slot[slotId-1] === 0) {
@@ -55,6 +56,7 @@ export class ParkingService {
         return false
     }
 
+    //This Function will add the slot back to Binary heap and flag it as available
     freeSlot(slotId: number): void {
         available_slot[slotId-1] = 1
         nearestSlot.push(slotId-1)

@@ -1,3 +1,7 @@
+// referred from https://gist.github.com/THeK3nger/7169c986a87b8307396139050b1e9668
+
+//This class is used to implement Min-Heap
+
 export class BinaryHeap<T> {
     content: T[];
     scoreFunction: (x: T) => number;
