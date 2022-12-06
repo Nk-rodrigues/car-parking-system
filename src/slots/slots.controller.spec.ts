@@ -1,5 +1,5 @@
 import {Test, TestingModule } from '@nestjs/testing';
-import { Controller } from '@nestjs/common';
+import { Controller, HttpException } from '@nestjs/common';
 import { SlotController } from './slots.controller';
 import { SlotService } from './slots.service';
 import { ParkingController } from '../parking/parking.controller'; 
@@ -12,6 +12,12 @@ describe('SlotController', ()=> {
         allocateSlot: jest.fn(
             ()=>{
                 return {"allocated_slot_number": 1}
+            }
+        ),
+
+        freeSpace: jest.fn(
+            ()=>{
+                return {"freed_slot_number": 1}
             }
         )
       };
@@ -35,6 +41,12 @@ describe('SlotController', ()=> {
     it('should create parking space', ()=>{
         expect(controller.createParking({"car_reg_no": "KA-101", "car_color": "red"})).toEqual({
             allocated_slot_number: expect.any(Number)
+        })
+    })
+
+    it('should throw httpException', ()=>{
+        expect(controller.freeParkingSpace({"slot_number": 1})).toEqual({
+            freed_slot_number: expect.any(Number)
         })
     })
 
