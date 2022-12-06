@@ -1,4 +1,5 @@
 import { Controller, Post, Get, Body, Param, Delete } from '@nestjs/common';
+import { ParkDTO } from './slots.dto';
 import { CustomValidation } from './slots.pipes';
 import { SlotService } from './slots.service';
 
@@ -7,11 +8,8 @@ export class SlotController {
     constructor(private slotService: SlotService){}
 
     @Post('park')
-    createParking(@Body() req: {
-        car_reg_no: string,
-        car_color: string
-        }) : {} {
-        return this.slotService.allocateSlot(req)
+    createParking(@Body() dto: ParkDTO) {
+        return this.slotService.allocateSlot(dto)
     }
 
     @Get('/registration_numbers/:color')
