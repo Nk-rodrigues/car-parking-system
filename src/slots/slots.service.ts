@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { Slot } from './slots.model';
-import { ParkingService } from 'src/parking/parking.service';
+import { ParkingService } from '../parking/parking.service';
 
 let vehicle = new Set<string>()
 // let colorMapReg = new ArrayMultimap<string, string>

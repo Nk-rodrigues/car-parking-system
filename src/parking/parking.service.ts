@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BinaryHeap } from 'src/priority_queue/priority_queue';
+import { BinaryHeap } from '../priority_queue/priority_queue';
 
 let total_slot;
 let available_slot = [] //This Array is used to flag if a slot is empty or not
