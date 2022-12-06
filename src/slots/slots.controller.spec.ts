@@ -44,7 +44,7 @@ describe('SlotController', ()=> {
         })
     })
 
-    it('should throw httpException', ()=>{
+    it('should free the slot', ()=>{
         expect(controller.freeParkingSpace({"slot_number": 1})).toEqual({
             freed_slot_number: expect.any(Number)
         })
