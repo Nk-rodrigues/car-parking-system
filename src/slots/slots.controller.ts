@@ -9,8 +9,7 @@ export class SlotController {
     @Post('park')
     createParking(@Body() req: {
         car_reg_no: string,
-        car_color: string,
-        slotID: number
+        car_color: string
         }) : {} {
         return this.slotService.allocateSlot(req)
     }

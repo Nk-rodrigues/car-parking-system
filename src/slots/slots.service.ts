@@ -16,7 +16,13 @@ export class SlotService {
 
 
     //allocate a slot to a vehicle
-    allocateSlot(req: {car_reg_no: string, car_color: string, slotID: number}) {
+    allocateSlot(req: {car_reg_no: string, car_color: string}) {
+
+        let car = {
+            car_reg_no: req.car_reg_no,
+            car_color: req.car_color,
+            slotID:-1
+        }
 
         if(vehicle.has(req.car_reg_no)){
             throw new HttpException("Vehicle already exists" , 400)
@@ -26,15 +32,16 @@ export class SlotService {
 
         if(slot != -1){
 
-            req.slotID = slot+1
-            this.slots.push(req)
-            vehicle.add(req.car_reg_no)
+            car.slotID = slot+1
+            this.slots.push(car)
+            vehicle.add(car.car_reg_no)
+            console.log(vehicle)
 
             //map comma seperated vehicle reg. No. to respective color
-            colorMapReg[req.car_color] = colorMapReg[req.car_color] ? colorMapReg[req.car_color]+req.car_reg_no+',' : req.car_reg_no+','
+            colorMapReg[car.car_color] = colorMapReg[car.car_color] ? colorMapReg[car.car_color]+car.car_reg_no+',' : car.car_reg_no+','
             //map comma seperated slot no. to respective color
-            colorMapId[req.car_color] = colorMapId[req.car_color] ? colorMapId[req.car_color]+req.slotID+',' : req.slotID+','
-            
+            colorMapId[car.car_color] = colorMapId[car.car_color] ? colorMapId[car.car_color]+car.slotID+',' : car.slotID+','
+
             return {"allocated_slot_number": slot+1}
         }
 
@@ -71,6 +78,7 @@ export class SlotService {
         //delete logic if slot no. is given
         if (req.slot_number) {
                 if (this.parkingService.slotIdStatus) {
+                    console.log('here')
                     for(let i=0; i<this.slots.length; i++) {
                         if (req.slot_number == this.slots[i].slotID) {
                             colorMapReg[this.slots[i].car_color] = colorMapReg[this.slots[i].car_color].replace(this.slots[i].car_reg_no,'')
@@ -90,7 +98,9 @@ export class SlotService {
 
         //delete logic if registration no. is given
         else {
+            console.log(vehicle)
             if (vehicle.has(req.car_registration_no)) {
+                console.log('here')
                 vehicle.delete(req.car_registration_no)
                 for(let i=0; i<this.slots.length; i++) {
                     if (req.car_registration_no === this.slots[i].car_reg_no) {
@@ -108,4 +118,5 @@ export class SlotService {
             }
         }
     }
+    
 }
